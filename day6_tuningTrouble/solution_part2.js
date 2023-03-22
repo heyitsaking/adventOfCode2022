@@ -7,9 +7,19 @@ var lineReader = require("readline").createInterface({
  */
 let result = 0;
 
+const checkUnique = (array) => {
+  return array.length === [...new Set(array)].length;
+};
+
 const tuningTrouble = async () => {
   lineReader.on("line", function (line) {
-    
+    let sequenceLength = 14;
+    for (let i = 0; i + sequenceLength <= line.length; i++) {
+      if (checkUnique([...line.substring(i, i + sequenceLength)])) {
+        result = i + sequenceLength;
+        return;
+      }
+    }
   });
 
   await require("events").once(lineReader, "close");
